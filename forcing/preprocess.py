@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Created on Fri Nov 28 20:34:57 2014
@@ -143,13 +144,13 @@ lin_x = np.arange(Wlim,Elim,grdspc)
 lin_y = np.arange(Slim,Nlim,grdspc)
 grid_x, grid_y = np.meshgrid(lin_x, lin_y)
 
-grid_ts = griddata((np.ndarray.flatten(x), np.ndarray.flatten(y)), np.ndarray.flatten(tsclip), (grid_x, grid_y), method='cubic')
-grid_pr = griddata((np.ndarray.flatten(x), np.ndarray.flatten(y)), np.ndarray.flatten(prclip), (grid_x, grid_y), method='cubic')
+grid_ts = griddata((np.ndarray.flatten(x), np.ndarray.flatten(y)), np.ndarray.flatten(tsclip), (grid_x, grid_y))
+grid_pr = griddata((np.ndarray.flatten(x), np.ndarray.flatten(y)), np.ndarray.flatten(prclip), (grid_x, grid_y))
 #grid_cmb = griddata((np.ndarray.flatten(x), np.ndarray.flatten(y)), np.ndarray.flatten(cmbclip), (grid_x, grid_y), method='cubic')
 #grid_thk = griddata((np.ndarray.flatten(x3), np.ndarray.flatten(y3)), np.ndarray.flatten(thkclip), (grid_x, grid_y), method='cubic')
-grid_topg = griddata((np.ndarray.flatten(x2), np.ndarray.flatten(y2)), np.ndarray.flatten(topgclip), (grid_x, grid_y), method='cubic')
-grid_lon = griddata((np.ndarray.flatten(x2), np.ndarray.flatten(y2)), np.ndarray.flatten(longrid2), (grid_x, grid_y), method='cubic')
-grid_lat = griddata((np.ndarray.flatten(x2), np.ndarray.flatten(y2)), np.ndarray.flatten(latgrid2), (grid_x, grid_y), method='cubic')
+grid_topg = griddata((np.ndarray.flatten(x2), np.ndarray.flatten(y2)), np.ndarray.flatten(topgclip), (grid_x, grid_y))
+grid_lon = griddata((np.ndarray.flatten(x2), np.ndarray.flatten(y2)), np.ndarray.flatten(longrid2), (grid_x, grid_y))
+grid_lat = griddata((np.ndarray.flatten(x2), np.ndarray.flatten(y2)), np.ndarray.flatten(latgrid2), (grid_x, grid_y))
 
 # Test plot of gridded area in UTM -- uncomment for debugging
 #plt.contourf(grid_x,grid_y,grid_topg)
@@ -159,11 +160,23 @@ grid_lat = griddata((np.ndarray.flatten(x2), np.ndarray.flatten(y2)), np.ndarray
 # Export data to PISM-ready netCDF file
 print('Exporting PISM-ready data file in this directory ...')
 
-grid_ts = grid_ts[np.newaxis,:,:]; grid_ts[np.isnan(grid_ts)] = 0
-grid_pr = grid_pr[np.newaxis,:,:]; grid_pr[np.isnan(grid_pr)] = 0
+# import sys
+# sys.exit(0)
+# grid_ts2 = grid_ts[np.newaxis,:,:]
+# grid_ts2[np.isnan(grid_ts2)] = 0
+# grid_pr2 = grid_pr[np.newaxis,:,:]
+# grid_pr2[np.isnan(grid_pr2)] = 0
+
+grid_ts = grid_ts[np.newaxis,:,:]
+grid_ts[np.isnan(grid_ts)] = 0
+grid_pr = grid_pr[np.newaxis,:,:]
+grid_pr[np.isnan(grid_pr)] = 0
+
+
 #grid_cmb = grid_cmb[np.newaxis,:,:]; grid_cmb[np.isnan(grid_cmb)] = 0
 #grid_thk = grid_thk[np.newaxis,:,:]; grid_thk = grid_thk.clip(min=0); grid_thk[np.isnan(grid_thk)] = 0 # get rid of negative and nan numbers...
-grid_topg = grid_topg[np.newaxis,:,:]; grid_topg[np.isnan(grid_topg)] = 0
+grid_topg = grid_topg[np.newaxis,:,:]
+grid_topg[np.isnan(grid_topg)] = 0
 grid_lat = grid_lat[np.newaxis,:,:]
 grid_lon = grid_lon[np.newaxis,:,:]
 
