@@ -37,11 +37,11 @@ lon = climdata.variables['lon'][:]
 lat = climdata.variables['lat'][:]
 
 # surface temp
-ts = climdata.variables['air_temp'][:] -7  #-272.15  put into Celsius (new one already in Celcius)
+ts = climdata.variables['air_temp'][:]
 ts = np.average(ts,axis=0,weights=daymonths) # Averages 12-month temp data --> yearly data (can I do this -- months are different lengths!)
 
 # precip # pism name = prdata.variables['matlab name'][:]
-pr = (climdata.variables['precipitation'][:]/1000*3600*24*365) *.5 # Convert from [kg m-2 s-1] to [m yr-1]
+pr = (climdata.variables['precipitation'][:])  
 pr = np.average(pr,axis=0,weights=daymonths) # Averages 12-month temp data --> yearly data
 
 # snowfall flux
@@ -180,7 +180,7 @@ grid_topg[np.isnan(grid_topg)] = 0
 grid_lat = grid_lat[np.newaxis,:,:]
 grid_lon = grid_lon[np.newaxis,:,:]
 
-nc = netCDF4.Dataset('fscs_temp7.0_precip0.5.nc', 'w', format='NETCDF3_64BIT')
+nc = netCDF4.Dataset('fscs_climate.nc', 'w', format='NETCDF3_64BIT')
 
 # Set dimensions
 time = nc.createDimension('time', None)
@@ -208,7 +208,7 @@ nc.history = 'Created Nov 2014 at UIUC'
 nc.source = 'Derek Lichtner; Rachel Oien'
 
 topg.units = 'meters'
-precip.units = 'meters/year'
+precip.units = 'mm month-1'
 #climatic_mass_balance.units = 'kg m-2 year-1'
 temp.units = 'Celsius'
 lat.units = 'degreeN'
