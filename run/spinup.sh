@@ -4,36 +4,58 @@
 
 set -e  # exit on error
 
-NN=64  # default number of processors
+NN=4  # default number of processors
 if [ $# -gt 0 ] ; then  # if user says "paramspawn.sh 8" then NN = 8
   NN="$1"
 fi
 
+GRIDLIST="{20000,10000,5000}"
 
 ## Set Pism executable and number of cpus
 PISM_MPIDO="mpiexec -n"
-NN=56
 PISM_EXEC=pismr
 
 ## Parse input arguments -- perhaps fix this to use tags? otherwise you can't omit intermediate arg
 # Usage: ./spinup.sh inputfile.nc outputfile.nc gridkmsize startyr endyr regridfile
 
 # Set grid size
-if [ -z "$2" ]
-  then
-   myMx=$((426*100/20*5/100)) # Default grid is 20 km
-   myMy=$((523*100/20*5/100))
-  else
-   myMx=$((426*100/$2*5/100))
-   myMy=$((523*100/$2*5/100))
+COARSESKIP=10
+MEDIUMSKIP=20
+FINESKIP=50
+FINESTSKIP=200
+VDIMS="-Lz 4000 -Lbz 2000 -skip -skip_max "
+COARSEVGRID="-Mz 101 -Mbz 11 -z_spacing equal ${VDIMS} ${COARSESKIP}"
+MEDIUMVGRID="-Mz 201 -Mbz 21 -z_spacing equal ${VDIMS} ${MEDIUMSKIP}"
+FINEVGRID="-Mz 201 -Mbz 21 -z_spacing equal ${VDIMS} ${FINESKIP}"
+FINESTVGRID="-Mz 401 -Mbz 41 -z_spacing equal ${VDIMS} ${FINESTSKIP}"
+HIGHRESPETSC=""
+if [ "$2" == "20000" ]; then
+  dx=$2
+  myMx=95
+  myMy=159
+  vgrid=$COARSEVGRID
+elif [ "$2" == "10000" ]; then
+  dx=$2
+  myMx=189
+  myMy=318
+  vgrid=$MEDIUMEVGRID
+elif [ "$2" == "5000" ]; then
+  dx=$2
+  myMx=379
+  myMy=625
+  vgrid=$FINEVGRID
+else
+  echo "invalid second argument: must be in $GRIDLIST"
+  exit
 fi
+GRID=$dx
 
 # Get input file name
 if [ -z "$3" ]
   then
-    PISM_DATANAME=fscs_climate.nc # default input file # changed to call output.nc from preprocess_v____Script
+    PISM_CLIMATENAME=fscs_climate.nc 
   else
-    PISM_DATANAME=$3 #1st input arg is input data
+    PISM_CLIMATENAME=$3
 fi
 
 # Get out file name
@@ -65,6 +87,8 @@ if [ -z "$6" ]
     ENDTIME=$6
 fi
 
+PISM_DATANAME=pism_FennoScandian_${GRID}m.nc
+
 RUNSTARTEND="-ys $STARTIME -ye $ENDTIME"
 
 # Set regridding file (makes fine resoluton calcs faster by using interpolated vars from already completed coarser run) 
@@ -80,7 +104,7 @@ fi
 ## Climate coupling inputs
 #COUPLER="-surface given -surface_given_file $PISM_DATANAME" # no climate forcing, just reads mass balance from input file (constant climate) # didn't work
 
-COUPLER='-atmosphere given,lapse_rate -temp_lapse_rate 6 -atmosphere_lapse_rate_file fscs_climate.nc -atmosphere_given_file fscs_climate.nc -surface pdd' # '  #took out -bed_def lc -surface ppd'
+COUPLER="-atmosphere given,lapse_rate -temp_lapse_rate 6 -atmosphere_lapse_rate_file $PISM_CLIMATENAME -atmosphere_given_file $PISM_CLIMATENAME -surface pdd" 
 
 #COUPLER='-surface simple'  #doesn't work
 
