@@ -31,18 +31,18 @@ FINESTVGRID="-Mz 401 -Mbz 41 -z_spacing equal ${VDIMS} ${FINESTSKIP}"
 HIGHRESPETSC=""
 if [ "$2" == "20000" ]; then
   dx=$2
-  myMx=95
-  myMy=159
+  myMx=121
+  myMy=135
   vgrid=$COARSEVGRID
 elif [ "$2" == "10000" ]; then
   dx=$2
-  myMx=189
-  myMy=318
+  myMx=241
+  myMy=270
   vgrid=$MEDIUMEVGRID
 elif [ "$2" == "5000" ]; then
   dx=$2
-  myMx=379
-  myMy=625
+  myMx=482
+  myMy=540
   vgrid=$FINEVGRID
 else
   echo "invalid second argument: must be in $GRIDLIST"
@@ -53,7 +53,7 @@ GRID=$dx
 # Get input file name
 if [ -z "$3" ]
   then
-    PISM_CLIMATENAME=fscs_climate.nc 
+    PISM_CLIMATENAME=fscs_climate_5000m.nc 
   else
     PISM_CLIMATENAME=$3
 fi
@@ -104,7 +104,7 @@ fi
 ## Climate coupling inputs
 #COUPLER="-surface given -surface_given_file $PISM_DATANAME" # no climate forcing, just reads mass balance from input file (constant climate) # didn't work
 
-COUPLER="-atmosphere given,lapse_rate -temp_lapse_rate 6 -atmosphere_lapse_rate_file $PISM_CLIMATENAME -atmosphere_given_file $PISM_CLIMATENAME -surface pdd" 
+COUPLER="-atmosphere given,lapse_rate -temp_lapse_rate 6 -atmosphere_lapse_rate_file $PISM_DATANAME -atmosphere_given_file $PISM_CLIMATENAME -surface pdd" 
 
 #COUPLER='-surface simple'  #doesn't work
 
