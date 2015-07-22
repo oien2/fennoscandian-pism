@@ -198,6 +198,7 @@ lon = nc.createVariable('lon','f4',('time','y','x'))
 precip = nc.createVariable('precipitation','f8',('time','y','x'))
 #thk = nc.createVariable('thk','f8',('time','y','x'))
 topg = nc.createVariable('topg','f8',('time','y','x'))
+usurf = nc.createVariable('usurf','f8',('time','y','x'))
 
 mapping = nc.createVariable('mapping','S1')
 
@@ -209,6 +210,7 @@ nc.source = 'Derek Lichtner; Rachel Oien'
 
 topg.units = 'meters'
 precip.units = 'mm month-1'
+usurf.units = 'meters'
 #climatic_mass_balance.units = 'kg m-2 year-1'
 temp.units = 'Celsius'
 lat.units = 'degreeN'
@@ -242,6 +244,7 @@ lat.standard_name = 'latitude'
 lat.long_name = 'Latitude'
 lon.standard_name = 'longitude'
 lon.long_name = 'Longitude'
+usurf.standard_name = 'surface_altitude'
 
 mapping.ellipsoid = "WGS84";
 #mapping.false_easting = 0.0; // double
@@ -257,6 +260,7 @@ time[:] = 0
 x[:] = lin_x
 y[:] = lin_y
 topg[:] = grid_topg
+usurf[:] = grid_topg
 precip[:] = grid_pr
 #climatic_mass_balance[:] = grid_cmb
 temp[:] = grid_ts
