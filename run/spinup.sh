@@ -122,7 +122,7 @@ COUPLER="-atmosphere given,lapse_rate,delta_T,frac_P -atmosphere_delta_T_file $P
 #PHYS="-pik -calving eigen_calving -stress_balance ssa+sia -pseudo_plastic -tauc_slippery_grounding_lines"
 
 # What is the 'right' calving thickness threshold???
-PHYS='-bed_def lc -pik -calving thickness_calving,eigen_calving -eigen_calving_K 1e17 -thickness_calving_threshold 200 -sia_e 3.0 -stress_balance ssa+sia -topg_to_phi 15.0,40.0,-300.0,700.0 -pseudo_plastic -pseudo_plastic_q 0.5 -till_effective_fraction_overburden 0.02 -tauc_slippery_grounding_lines'
+PHYS='-bed_def lc -pik -calving thickness_calving,eigen_calving -eigen_calving_K 1e17 -thickness_calving_threshold 50 -sia_e 3.0 -stress_balance ssa+sia -topg_to_phi 15.0,40.0,-300.0,700.0 -pseudo_plastic -pseudo_plastic_q 0.5 -till_effective_fraction_overburden 0.02 -tauc_slippery_grounding_lines'
 #PHYS='-bed_def lc -calving float_kill -sia_e 3.0'
 
 ## DIAGONSTIC AND OUTPUT FILES
