@@ -11,16 +11,11 @@ gunzip -k -f ${etopo_bedrock}.grd.gz
 gunzip -k -f ${etopo_surface}.grd.gz
 echo 
 
-
-Nlim=74.8 #74.0 # degrees
-Slim=50.0 #48.5
-Wlim=-1.0 #-2.75
-Elim=53.0 #45.25
-
-xmin=-22500
-ymin=5547500
-xmax=2387500
-ymax=8247500
+# Adjust bounding box to accomodate 20km grids
+xmin=$((-22500 - 15000)) 
+ymin=$((5547500 - 10000))
+xmax=$((2387500 + 15000))
+ymax=$((8247500 + 10000))
 
 
 for GRID in 20000 10000 5000; do

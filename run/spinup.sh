@@ -31,18 +31,18 @@ FINESTVGRID="-Mz 401 -Mbz 41 -z_spacing equal ${VDIMS} ${FINESTSKIP}"
 HIGHRESPETSC=""
 if [ "$2" == "20000" ]; then
   dx=$2
-  myMx=121
-  myMy=135
+  myMx=122
+  myMy=136
   vgrid=$COARSEVGRID
 elif [ "$2" == "10000" ]; then
   dx=$2
-  myMx=241
-  myMy=270
+  myMx=244
+  myMy=272
   vgrid=$MEDIUMEVGRID
 elif [ "$2" == "5000" ]; then
   dx=$2
-  myMx=482
-  myMy=540
+  myMx=488
+  myMy=544
   vgrid=$FINEVGRID
 else
   echo "invalid second argument: must be in $GRIDLIST"
