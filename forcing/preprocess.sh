@@ -15,3 +15,6 @@ for GRID in 20000 5000; do
     cdo timmean fscs_climate_${GRID}m_MM.nc fscs_climate_${GRID}m.nc
     ncatted -a units,time,o,c,"month" fscs_climate_${GRID}m.nc
 done
+
+# Create delta forcing
+python create_delta_forcing.py --frac_P 0.5 --delta_T -7 --delta_SL -120 delta_P_0.5_T_m7K_SL_m120m.nc

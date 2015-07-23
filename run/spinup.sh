@@ -99,12 +99,13 @@ if [ -z "$7" ]
     regridcommand="-regrid_file $7 -regrid_vars litho_temp,thk,enthalpy,tillwat,bmelt"
 fi
 
+PISM_DELTA_FILE=delta_P_0.5_T_m7K_SL_m120m.nc
 ### The following input args are set to defaults in this script:
 
 ## Climate coupling inputs
 #COUPLER="-surface given -surface_given_file $PISM_DATANAME" # no climate forcing, just reads mass balance from input file (constant climate) # didn't work
 
-COUPLER="-atmosphere given,lapse_rate -temp_lapse_rate 6 -atmosphere_lapse_rate_file $PISM_DATANAME -atmosphere_given_file $PISM_CLIMATENAME -surface pdd" 
+COUPLER="-atmosphere given,lapse_rate,delta_T,frac_P -atmosphere_delta_T_file $PISM_DELTA_FILE -atmosphere_frac_P_file $PISM_DELTA_FILE -temp_lapse_rate 6 -atmosphere_lapse_rate_file $PISM_DATANAME -atmosphere_given_file $PISM_CLIMATENAME -surface pdd -ocean constant,delta_SL -ocean_delta_SL_file $PISM_DELTA_FILE"
 
 #COUPLER='-surface simple'  #doesn't work
 
@@ -119,8 +120,8 @@ COUPLER="-atmosphere given,lapse_rate -temp_lapse_rate 6 -atmosphere_lapse_rate_
 #test 4: 
 #PHYS="-calving ocean_kill -ocean_kill_file $PISM_DATANAME -sia_e 3.0 -stress_balance ssa+sia -topg_to_phi 15.0,40.0,-300.0,700.0 -pseudo_plastic -pseudo_plastic_q 0.5 -till_effective_fraction_overburden 0.02 -tauc_slippery_grounding_lines" # straight from greenland example, more advanced ice physics -- this will require some adjusting in future
 #PHYS="-pik -calving eigen_calving -stress_balance ssa+sia -pseudo_plastic -tauc_slippery_grounding_lines"
-PHYS='-pik -calving eigen_calving,thickeness_calving -eigen_calving_K 1e17 -thickness_calving_threshold_200 -sia_e 3.0  -stress_balance ssa+sia -topg_to_phi 15.0,40.0,-300.0,700.0 -pseudo_plastic -pseudo_plastic_q 0.5 -till_effective_fraction_overburden 0.02 -tauc_slippery_grounding_lines'
-PHYS='-calving float_kill -sia_e 3.0'
+PHYS='-bed_def lc -pik -calving eigen_calving,thickeness_calving -eigen_calving_K 1e17 -thickness_calving_threshold_200 -sia_e 3.0 -stress_balance ssa+sia -topg_to_phi 15.0,40.0,-300.0,700.0 -pseudo_plastic -pseudo_plastic_q 0.5 -till_effective_fraction_overburden 0.02 -tauc_slippery_grounding_lines'
+PHYS='-bed_def lc -calving float_kill -sia_e 3.0'
 
 ## DIAGONSTIC AND OUTPUT FILES
 TSNAME=ts_$OUTNAME
