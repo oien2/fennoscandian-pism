@@ -12,8 +12,12 @@ for GRID in 20000 5000; do
     gdalwarp -overwrite -r bilinear -dstnodata 20 -s_srs EPSG:4326 -t_srs EPSG:32632 -te $xmin $ymin $xmax $ymax -tr $GRID $GRID -of netCDF NETCDF:modernclimate.nc:${var} $outfile
     done
     python merge_climate.py air_temp_${GRID}m.nc precipitation_${GRID}m.nc fscs_climate_${GRID}m_MM.nc
+    # convert from water equiv. to ice equiv.
+    ncap2 -O -s "precipitation=precipitation/.910;" fscs_climate_${GRID}m_MM.nc fscs_climate_${GRID}m_MM.nc
     cdo timmean fscs_climate_${GRID}m_MM.nc fscs_climate_${GRID}m.nc
     ncatted -a units,time,o,c,"month" fscs_climate_${GRID}m.nc
+    ncap2 -O -s "precipitation=precipitation*12*0.001; air_temp=air_temp+273.15" fscs_climate_${GRID}m.nc fscs_climate_${GRID}m_alt_units.nc
+    ncatted -a units,precipitation,o,c,"m year-1" -a units,air_temp,o,c,"K" fscs_climate_${GRID}m_alt_units.nc
 done
 
 # Create delta forcing
