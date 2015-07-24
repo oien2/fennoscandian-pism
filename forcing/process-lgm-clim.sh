@@ -20,6 +20,11 @@ ncrename -v pr,precipitation -v tas,air_temp -v pr_var,precipitation_var -v tas_
 ncap2 -O -s "precipitation=precipitation/910*31556926;" ${lgmclim}_fs_${GRID}m.nc ${lgmclim}_fs_${GRID}m.nc
 ncatted -a units,precipitation,o,c,"m year-1" ${lgmclim}_fs_${GRID}m.nc
 
+cdo remapbil,fs_${GRID}m_grid.nc ice5g_v1.2_21.0k_10min.nc ice5g_v1.2_21.0k_10min_fs_${GRID}m.nc
+ncks -A -v x,y fs_${GRID}m_grid.nc ice5g_v1.2_21.0k_10min_fs_${GRID}m.nc
+#ncks -A -v orog ice5g_v1.2_21.0k_10min_fs_${GRID}m.nc ${lgmclim}_fs_${GRID}m.nc
+
+
 # take number of days per month into account
 cdo divc,12 -muldpy -timmean -divdpm ${lgmclim}_fs_${GRID}m.nc ${lgmclim}_fs_${GRID}m_annual_mean.nc
 # This ignores the number of days per month
