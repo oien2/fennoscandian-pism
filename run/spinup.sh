@@ -50,10 +50,10 @@ else
 fi
 GRID=$dx
 
-# Get input file name
+# Get input file name -make sure this calls the correct climate forcing
 if [ -z "$3" ]
   then
-    PISM_CLIMATENAME=fscs_climate_5000m.nc 
+    PISM_CLIMATENAME=Aclim_CCSM4_lgm_r1i1p1_180001-190012-clim_fs_20000m_annual_mean.nc
   else
     PISM_CLIMATENAME=$3
 fi
@@ -99,7 +99,7 @@ if [ -z "$7" ]
     regridcommand="-regrid_file $7 -regrid_vars litho_temp,thk,enthalpy,tillwat,bmelt"
 fi
 
-PISM_DELTA_FILE=delta_P_0.5_T_m7K_SL_m120m.nc
+PISM_DELTA_FILE=delta_P_1.0_T_m0K_SL_m120m.nc
 ### The following input args are set to defaults in this script:
 
 ## Climate coupling inputs
@@ -122,9 +122,11 @@ COUPLER="-atmosphere given,lapse_rate,delta_T,frac_P -atmosphere_delta_T_file $P
 #PHYS="-pik -calving eigen_calving -stress_balance ssa+sia -pseudo_plastic -tauc_slippery_grounding_lines"
 
 # What is the 'right' calving thickness threshold???
-PHYS='-bed_def lc -pik -calving thickness_calving,eigen_calving -eigen_calving_K 1e17 -thickness_calving_threshold 50 -sia_e 3.0 -stress_balance ssa+sia -topg_to_phi 15.0,40.0,-300.0,700.0 -pseudo_plastic -pseudo_plastic_q 0.5 -till_effective_fraction_overburden 0.02 -tauc_slippery_grounding_lines'
-#PHYS='-bed_def lc -calving float_kill -sia_e 3.0'
+#PHYS='-bed_def lc -pik -calving thickness_calving,eigen_calving -eigen_calving_K 1e17 -thickness_calving_threshold 50 -sia_e 3.0 -stress_balance ssa+sia -topg_to_phi 15.0,40.0,-300.0,700.0 -pseudo_plastic -pseudo_plastic_q 0.5 -till_effective_fraction_overburden 0.02 -tauc_slippery_grounding_lines'
+PHYS='-bed_def lc -calving float_kill -sia_e 3.0'
 
+
+OUTNAME=constant_21ka_test1_simple_PHYS
 ## DIAGONSTIC AND OUTPUT FILES
 TSNAME=ts_$OUTNAME
 TSTIMES=$STARTIME:yearly:$ENDTIME

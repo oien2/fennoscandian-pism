@@ -6,5 +6,8 @@ rm -f modernclimate.nc
 # run Matlab to create temp/precip file
 matlab -nodesktop -nojvm -nosplash -nodisplay < createNCDFSCRIPT.m
 
-# run preprocess.py
-python preprocess.py
+#Starts the  preprocess_grid_NOAA.sh file
+./preprocess_regrid_NOAA.sh
+
+# run preprocess.py -- make sure this is running the correct preprocess script - names have changed
+#python preprocess.py

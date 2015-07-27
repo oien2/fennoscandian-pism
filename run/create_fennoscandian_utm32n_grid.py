@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#Created by Andy Aschwanden -UAF 7/20/15-7/27/15
 import numpy as np
 from pyproj import Proj
 from argparse import ArgumentParser
