@@ -105,7 +105,7 @@ PISM_DELTA_FILE=delta_P_1.0_T_m0K_SL_m120m.nc
 ## Climate coupling inputs
 #COUPLER="-surface given -surface_given_file $PISM_DATANAME" # no climate forcing, just reads mass balance from input file (constant climate) # didn't work
 
-COUPLER="-atmosphere given,lapse_rate,delta_T,frac_P -atmosphere_delta_T_file $PISM_DELTA_FILE -atmosphere_frac_P_file $PISM_DELTA_FILE -temp_lapse_rate 6 -atmosphere_lapse_rate_file $PISM_DATANAME -atmosphere_given_file $PISM_CLIMATENAME -surface pdd -ocean constant,delta_SL -ocean_delta_SL_file $PISM_DELTA_FILE"
+COUPLER="-atmosphere given,lapse_rate,delta_T,frac_P -atmosphere_delta_T_file $PISM_DELTA_FILE -atmosphere_frac_P_file $PISM_DELTA_FILE -temp_lapse_rate 6 -atmosphere_lapse_rate_file $PISM_DATANAME -atmosphere_given_file $PISM_CLIMATENAME -surface pdd  -ocean constant,delta_SL -ocean_delta_SL_file $PISM_DELTA_FILE"
 
 #COUPLER='-surface simple'  #doesn't work
 
@@ -122,11 +122,11 @@ COUPLER="-atmosphere given,lapse_rate,delta_T,frac_P -atmosphere_delta_T_file $P
 #PHYS="-pik -calving eigen_calving -stress_balance ssa+sia -pseudo_plastic -tauc_slippery_grounding_lines"
 
 # What is the 'right' calving thickness threshold???
-#PHYS='-bed_def lc -pik -calving thickness_calving,eigen_calving -eigen_calving_K 1e17 -thickness_calving_threshold 50 -sia_e 3.0 -stress_balance ssa+sia -topg_to_phi 15.0,40.0,-300.0,700.0 -pseudo_plastic -pseudo_plastic_q 0.5 -till_effective_fraction_overburden 0.02 -tauc_slippery_grounding_lines'
-PHYS='-bed_def lc -calving float_kill -sia_e 3.0'
+PHYS='-bed_def lc -pik -calving thickness_calving,eigen_calving -eigen_calving_K 1e17 -thickness_calving_threshold 50 -sia_e 3.0 -stress_balance ssa+sia -topg_to_phi 15.0,40.0,-300.0,700.0 -pseudo_plastic -pseudo_plastic_q 0.5 -till_effective_fraction_overburden 0.02 -tauc_slippery_grounding_lines'
+#PHYS='-bed_def lc -calving float_kill -sia_e 3.0  -pseudo_plastic -pseudo_plastic_q 0.25 '
 
 
-OUTNAME=constant_21ka_test1_simple_PHYS
+OUTNAME=constant_21ka_test4_simple_PHYS
 ## DIAGONSTIC AND OUTPUT FILES
 TSNAME=ts_$OUTNAME
 TSTIMES=$STARTIME:yearly:$ENDTIME
