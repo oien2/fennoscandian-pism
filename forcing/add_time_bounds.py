@@ -55,7 +55,10 @@ else:
 
 
 time_dim = 'time'
+# create a new dimension for bounds only if it does not yet exist
 bnds_dim = 'bnds'
+if bnds_dim not in nc.dimensions.keys():
+    nc.createDimension(bnds_dim, 2)
 
 # variable names consistent with PISM
 time_var_name = "time"
