@@ -25,7 +25,7 @@ ncatted -a missing_value,,d,, ${icefile}.nc
 cdo remapbil,fs_${GRID}m_grid.nc .nc ${icefile}_fs_${GRID}m.nc
 ncks -A -v x,y fs_${GRID}m_grid.nc ${icefile}_fs_${GRID}m.nc
 ncks -A -v orog ${icefile}_fs_${GRID}m.nc ${lgmclim}_fs_${GRID}m.nc
-
+python add_time_bounds.py ${lgmclim}_fs_${GRID}m.nc
 
 # take number of days per month into account
 cdo divc,12 -muldpy -timmean -divdpm ${lgmclim}_fs_${GRID}m.nc ${lgmclim}_fs_${GRID}m_annual_mean.nc
