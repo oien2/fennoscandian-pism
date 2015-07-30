@@ -30,5 +30,6 @@ python add_time_bounds.py ${lgmclim}_fs_${GRID}m.nc
 # take number of days per month into account
 cdo divc,12 -muldpy -timmean -divdpm ${lgmclim}_fs_${GRID}m.nc ${lgmclim}_fs_${GRID}m_annual_mean.nc
 ncks -A -v x,y fs_${GRID}m_grid.nc ${lgmclim}_fs_${GRID}m_annual_mean.nc
+ncatted -a units,time,o,c,"days" ${lgmclim}_fs_${GRID}m_annual_mean.nc
 # This ignores the number of days per month
 # cdo timmean ${lgmclim}_fs_${GRID}m.nc ${lgmclim}_fs_${GRID}m_annual_mean.nc
