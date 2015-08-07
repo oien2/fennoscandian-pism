@@ -99,7 +99,7 @@ if [ -z "$7" ]
     regridcommand="-regrid_file $7 -regrid_vars litho_temp,thk,enthalpy,tillwat,bmelt"
 fi
 
-PISM_DELTA_FILE=delta_P_1.0_T_m0K_SL_m120m.nc
+PISM_DELTA_FILE=delta_P_1.0_T_m0K_SL_m0m.nc
 ### The following input args are set to defaults in this script:
 
 ## Climate coupling inputs
@@ -126,7 +126,7 @@ PHYS='-bed_def lc -pik -calving thickness_calving,eigen_calving -eigen_calving_K
 #PHYS='-bed_def lc -calving float_kill -sia_e 3.0  -pseudo_plastic -pseudo_plastic_q 0.25 '
 
 
-OUTNAME=constant_21ka_test4_simple_PHYS
+OUTNAME=constant_21ka_test14_SLm0m_ice5gthk.nc
 ## DIAGONSTIC AND OUTPUT FILES
 TSNAME=ts_$OUTNAME
 TSTIMES=$STARTIME:yearly:$ENDTIME
